@@ -5,6 +5,8 @@ import { Header } from "../../components/Header";
 import { Highlight } from "../../components/Highlight";
 import { GroupCard } from "../../components/GroupCard";
 import { useState } from "react";
+import { ListEmpty } from "../../components/ListEmpty";
+import { ButtonComponent } from "../../components/ButtonComponent";
 
 const groupsDefault = [
   {
@@ -92,7 +94,8 @@ const groupsDefault = [
 type GroupCardListProps = typeof groupsDefault
 
 export function Group() {
-  const [groups, setGroups] = useState<GroupCardListProps>(groupsDefault)
+  const [groups, setGroups] = useState<GroupCardListProps>([])
+
   return (
     <Container>
       <Header />
@@ -105,8 +108,14 @@ export function Group() {
         renderItem={({ item }) => (
           <GroupCard title={item.title} />
         )}
+        contentContainerStyle={groups.length === 0 && {flex: 1}}
+        ListEmptyComponent={()=> (
+          <ListEmpty message="Que tal cadastrar novos itens ?"/>
+        ) }
       
       />
+
+      <ButtonComponent title="Criar nova turma" />
 
       {/* <GroupCard  title="Galera do futebol" /> */}
       {/* <Title>Groups</Title> */}
