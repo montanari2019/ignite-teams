@@ -97,7 +97,7 @@ type GroupCardListProps = typeof groupsDefault
 export function Group() {
   const [groups, setGroups] = useState<GroupCardListProps>([])
 
-  const navigation =  useNavigation()
+  const navigation =  useNavigation() as any
 
   function handleRoute(){
     navigation.navigate('new')
