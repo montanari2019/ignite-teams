@@ -7,6 +7,7 @@ import { GroupCard } from "../../components/GroupCard";
 import { useState } from "react";
 import { ListEmpty } from "../../components/ListEmpty";
 import { ButtonComponent } from "../../components/ButtonComponent";
+import { useNavigation } from "@react-navigation/native";
 
 const groupsDefault = [
   {
@@ -96,6 +97,12 @@ type GroupCardListProps = typeof groupsDefault
 export function Group() {
   const [groups, setGroups] = useState<GroupCardListProps>([])
 
+  const navigation =  useNavigation()
+
+  function handleRoute(){
+    navigation.navigate('new')
+  }
+
   return (
     <Container>
       <Header />
@@ -115,7 +122,7 @@ export function Group() {
       
       />
 
-      <ButtonComponent title="Criar nova turma" />
+      <ButtonComponent title="Criar nova turma" onPress={handleRoute}/>
 
       {/* <GroupCard  title="Galera do futebol" /> */}
       {/* <Title>Groups</Title> */}

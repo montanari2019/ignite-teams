@@ -10,7 +10,7 @@ interface ButtonComponentProps extends TouchableOpacityProps{
 
 export function ButtonComponent({ title, type, ...resto } :ButtonComponentProps){
      return(
-         <Container type={type ? type : "primary"} >
+         <Container {...resto} type={type ? type : "primary"} >
 
             <TitleButton>{title}</TitleButton>
              

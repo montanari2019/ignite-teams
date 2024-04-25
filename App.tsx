@@ -6,6 +6,7 @@ import theme from "./src/theme";
 import { StatusBar } from "react-native";
 import { NewGroup } from "./src/screens/NewGroup";
 import { Players } from "./src/screens/Players";
+import { Routes } from "./src/routes";
 
 
 export default function App() {
@@ -24,7 +25,7 @@ export default function App() {
           backgroundColor="transparent"
           translucent={true}
         />
-        {fontsLoaded ? <Players /> : <Loading/>}
+        {fontsLoaded ? <Routes /> : <Loading/>}
       </ThemeProvider>
     </>
   );

@@ -13,7 +13,18 @@ import { ListEmpty } from "../../components/ListEmpty";
 
 export function Players() {
   const [team, setTeam] = useState("TIME A");
-  const [playes, setPlayes] = useState(['ikaro', 'dani', 'maike', 'joao', 'mike', 'pedro', 'maria','afredo', 'pedrinho', 'carla'])
+  const [playes, setPlayes] = useState([
+    "ikaro",
+    "dani",
+    "maike",
+    "joao",
+    "mike",
+    "pedro",
+    "maria",
+    "afredo",
+    "pedrinho",
+    "carla",
+  ]);
   return (
     <Container>
       <Header showBackButton />
@@ -35,8 +46,7 @@ export function Players() {
 
       <HeaderList>
         <FlatList
-        // style={{width: '50%', }}
-          data={["TIME A", "TIME B", "TIME C", ]}
+          data={["TIME A", "TIME B", "TIME C"]}
           keyExtractor={(item) => item}
           renderItem={({ item }) => (
             <Filter
@@ -53,25 +63,24 @@ export function Players() {
       <FlatList
         data={playes}
         keyExtractor={(item) => item}
-        renderItem={({item})=> (
-          <PlayCard name={item} key={item} onRemove={() => {}}/> 
+        renderItem={({ item }) => (
+          <PlayCard name={item} key={item} onRemove={() => {}} />
         )}
-        ListEmptyComponent={()=> (
-          <ListEmpty message="Não há pessoas nesse time"/>
-        ) }
+        ListEmptyComponent={() => (
+          <ListEmpty message="Não há pessoas nesse time" />
+        )}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={[
-          {paddingBottom: 100},
-          playes.length === 0 && {flex: 1}
+          { paddingBottom: 100 },
+          playes.length === 0 && { flex: 1 },
         ]}
-      
       />
 
-      <ButtonComponent type="secondary" onPress={() => {}} title="Remover Turma"/>
-
-      {/* <InputComponent placeholder="Nome da turma"/> */}
-
-      {/* <ButtonComponent title="Criar"/> */}
+      <ButtonComponent
+        type="secondary"
+        onPress={() => {}}
+        title="Remover Turma"
+      />
     </Container>
   );
 }
