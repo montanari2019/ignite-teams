@@ -10,10 +10,11 @@ import { Container, Forms, HeaderList, NumberOfPlayers } from "./styled";
 import { useEffect, useRef, useState } from "react";
 import { PlayCard } from "../../components/PlayCard";
 import { ListEmpty } from "../../components/ListEmpty";
-import { useRoute } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { AppError } from "../../utils/app.error";
-import { getPlayersByGroupAndTeam, saveDataPlayersGroups } from "../../storage/player/playerCreate";
+import { getPlayersByGroupAndTeam, removeDataPlayersGroups, saveDataPlayersGroups } from "../../storage/player/playerCreate";
 import { PlayerStorageDto } from "../../storage/player/@types";
+import { removeDataGroups } from "../../storage/group/groupCreate";
 
 
 type RouteParams = {
@@ -21,6 +22,7 @@ type RouteParams = {
 }
 
 export function Players() {
+  const navigation = useNavigation()
   const [team, setTeam] = useState("TIME A");
   const [player, setPlayer] = useState("");
 
@@ -61,6 +63,55 @@ export function Players() {
 
         }
       }
+  }
+
+  async function handleRemovePlayer(playerName:string){
+    try{
+
+      await removeDataPlayersGroups(playerName, group)
+
+      Alert.alert("Remover player", `Player ${playerName} removido com sucesso!`)
+      fetchPlayersByTeam()
+
+      // const players
+      
+    }catch(error) {
+     
+        Alert.alert("Remover player", "Não foi possível remover a pessoa selecionada")
+
+      
+    }
+  }
+
+
+  async function removeGroups() {
+
+  
+
+    try {
+      Alert.alert("Remover Turma", `Deseja remover a turma ${group}?`, [
+        {
+          text: "Não",
+          style: "cancel",
+        },
+        {
+          text: "Sim",
+          onPress: async () => {
+            await removeDataGroups(group)
+            Alert.alert("Remover Turma", `Turma ${group} removida com sucesso!`)
+            navigation.navigate("groups")
+          },
+        }
+       
+      ])
+      
+      fetchPlayersByTeam()
+    } catch (error) {
+     
+        Alert.alert("Remover Turma", "Não foi possível o grupo")
+      
+    }
+    
   }
 
 
@@ -132,7 +183,7 @@ export function Players() {
         data={playes}
         keyExtractor={(item) => item.name}
         renderItem={({ item }) => (
-          <PlayCard name={item.name} key={item.name} onRemove={() => {}} />
+          <PlayCard name={item.name} key={item.name} onRemove={() => handleRemovePlayer(item.name)} />
         )}
         ListEmptyComponent={() => (
           <ListEmpty message="Não há pessoas nesse time" />
@@ -146,7 +197,7 @@ export function Players() {
 
       <ButtonComponent
         type="secondary"
-        onPress={() => {}}
+        onPress={removeGroups}
         title="Remover Turma"
       />
     </Container>

@@ -60,3 +60,25 @@ export async function getPlayersByGroupAndTeam(group:string, team:string) {
       throw error
     }
 } 
+
+
+
+export async function removeDataPlayersGroups(namePlayer: string, group:string) {
+  try {
+
+
+    const storagePlayers = await getPlayersByGroups(group)
+
+    const playersFilters = storagePlayers.filter((e) => e.name !== namePlayer)
+
+    const storage = JSON.stringify(playersFilters)
+    
+    await AsyncStorage.setItem(`${ENUM_COLLECTION.PLAYERS_COLLECTION}-${group}`, storage)
+
+
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
+
