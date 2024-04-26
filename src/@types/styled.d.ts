@@ -1,4 +1,4 @@
-import "styled-components/native";
+import "styled-components";
 
 import theme from "../theme";
 

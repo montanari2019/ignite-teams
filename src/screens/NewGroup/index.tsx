@@ -7,16 +7,32 @@ import { Container, Content } from "./styled";
 
 import { FontAwesome5 } from "@expo/vector-icons";
 import { useState } from "react";
+import { saveDataGroups } from "../../storage/group/groupCreate";
+import { AppError } from "../../utils/app.error";
+import { Alert } from "react-native";
 
 export function NewGroup() {
+  const [groupName, setGroupName] = useState("");
 
-  const [groupName, setGroupName] = useState('')
+  const navigation = useNavigation();
 
-  const navigation = useNavigation() as any
+  async function handleRouterGroup() {
+    try {
+      await saveDataGroups(groupName);
+      setGroupName("");
+      navigation.navigate("players", { group: groupName });
+    } catch (error) {
+      if(error instanceof AppError){
+        Alert.alert("Novo grupo", error.message)
+      }else {
+        Alert.alert("Novo grupo","Não foi possível criar um novo grupo")
+        console.log(error);
 
-  function handleRouterGroup(){
-    navigation.navigate('players', {group: groupName})
+      }
+
+    }
   }
+
   return (
     <Container>
       <Header showBackButton />
@@ -29,9 +45,18 @@ export function NewGroup() {
           subtitle="Crie a turma para adicionar as pessoas"
         />
 
-            <InputComponent placeholder="Nome da turma" onChangeText={(e) => setGroupName(e)}/>
+        <InputComponent
+          placeholder="Nome da turma"
+          value={groupName}
+          onChangeText={(e) => setGroupName(e)}
+        />
 
-        <ButtonComponent title="Criar" onPress={handleRouterGroup}/>
+        <ButtonComponent
+          disabled={groupName.trim().length === 0}
+          style={groupName.trim().length === 0 && { opacity: 0.5 }}
+          title="Criar"
+          onPress={handleRouterGroup}
+        />
       </Content>
     </Container>
   );
